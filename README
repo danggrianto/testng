@@ -1,3 +1,8 @@
+Fork from original testNG
+in this version duplicate failed test won't be reported to the Reporter class.
+If there are two duplicates failed results the old one will be replaced with new one.
+If the second test passed and the first tet failed then the failed result will be removed.
+
 Welcome to TestNG 6.8beta
 
 Please note that even though the .zip distribution contains the TestNG sources,
