@@ -658,7 +658,7 @@ public class TestRunner
     // so it can be eager => failure
     workers.add(new IWorker<ITestNGMethod>() {
       /**
-       * @see org.testng.internal.IMethodWorker#getMaxTimeOut()
+       *
        */
       @Override
       public long getTimeOut() {
@@ -1377,10 +1377,19 @@ public class TestRunner
 
   @Override
   public void addPassedTest(ITestNGMethod tm, ITestResult tr) {
+	  removeFailedTest(tm);
     m_passedTests.addResult(tr, tm);
   }
 
-  @Override
+	private void removeFailedTest(ITestNGMethod tm) {
+		List<String> m_failedTests_name = new ArrayList<String>();
+		Collection<ITestNGMethod> all_failed_methods = m_failedTests.getAllMethods();
+		for(ITestNGMethod m:all_failed_methods){
+			if(m.getMethodName().equals(tm.getMethodName())&& m.getTestClass().getName().equals(tm.getTestClass().getName()))m_failedTests.removeResult(m);
+		}
+	}
+
+	@Override
   public Set<ITestResult> getPassedTests(ITestNGMethod tm) {
     return m_passedTests.getResults(tm);
   }
@@ -1443,12 +1452,16 @@ public class TestRunner
      * We should not remove a passed method from m_passedTests so that we can
      * account for the passed instances of this test method.
      */
-    //m_passedTests.removeResult(method);
     if (withinSuccessPercentage) {
       m_failedButWithinSuccessPercentageTests.addResult(tr, method);
     }
     else {
-      m_failedTests.addResult(tr, method);
+
+	    removeFailedTest(method);
+	    m_failedTests.addResult(tr, method);
+
+
+
     }
   }
 

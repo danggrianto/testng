@@ -10,4 +10,6 @@ z_build
 maven-testng-plugin-1.2.jar
 .settings
 src/test/java/test/ignore
+.idea
+*.iml
 
